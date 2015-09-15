@@ -100,14 +100,14 @@ public class Knob: UIControl {
         }
     }
     
-    private var _knobBackgroundColor: UIColor?
+    private var knobBackgroundColor: UIColor?
     override public var backgroundColor: UIColor? {
         get {
-           return _knobBackgroundColor
+           return knobBackgroundColor
         }
         
         set {
-            _knobBackgroundColor = newValue
+            knobBackgroundColor = newValue
             updateLayer()
         }
     }
@@ -124,7 +124,7 @@ public class Knob: UIControl {
     
     private func updateLayer() {
         let shapeLayer = layer as! CAShapeLayer
-        if let color = _knobBackgroundColor {
+        if let color = knobBackgroundColor {
             shapeLayer.fillColor = color.CGColor
         }
         else {
