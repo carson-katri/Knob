@@ -181,13 +181,13 @@ public class Knob: UIControl {
     }
     
     override public func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
-        lastVector = touch.locationInView(self.superview) - center
+        lastVector = touch.locationInView(self) - bounds.center
         return true
     }
     
     override public func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
         // Calculate vector from center to touch.
-        let vector = touch.locationInView(self.superview) - center
+        let vector = touch.locationInView(self) - bounds.center
         
         // Add angular difference to our current value.
         angle = (angle + vector.angleFromVector(lastVector)) % (2 * M_PI)
