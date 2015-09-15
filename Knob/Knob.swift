@@ -8,21 +8,19 @@
 
 import UIKit
 
-typealias Vector = CGPoint
-
 extension CGPoint {
-    func vectorFromPoint(point: CGPoint) -> Vector {
-        return Vector(x: x - point.x, y: y - point.y)
+    func vectorFromPoint(point: CGPoint) -> CGVector {
+        return CGVector(dx: x - point.x, dy: y - point.y)
     }
 }
 
-extension Vector {
+extension CGVector {
     /**
      * Returns angle between vector and receiver in radians. Return is between
      * 0 and 2 * PI in counterclockwise direction.
      */
-    func angleFromVector(vector: Vector) -> Double {
-        let angle = Double(atan2(-y, x) - atan2(-vector.y, vector.x))
+    func angleFromVector(vector: CGVector) -> Double {
+        let angle = Double(atan2(-dy, dx) - atan2(-vector.dy, vector.dx))
         return angle > 0 ? angle : angle + 2 * M_PI
     }
 }
@@ -67,7 +65,7 @@ extension CATransaction {
 public class Knob: UIControl {
     private let indicatorLayer = CAShapeLayer()
     private let lineWidth = CGFloat(1)
-    private var lastVector = Vector.zero
+    private var lastVector = CGVector.zero
     private var angle = M_PI / 2.0
     
     /**
@@ -82,7 +80,6 @@ public class Knob: UIControl {
             updateLayer()
         }
     }
-    
     
     override public var frame: CGRect {
         didSet {
