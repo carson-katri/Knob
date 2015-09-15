@@ -125,7 +125,7 @@ public class Knob: UIControl {
     private func updateLayer() {
         let shapeLayer = layer as! CAShapeLayer
         if let color = knobBackgroundColor {
-            shapeLayer.fillColor = color.CGColor
+            shapeLayer.fillColor = enabled ? color.CGColor : (color.disabledColor().CGColor)
         }
         else {
             shapeLayer.fillColor = UIColor.clearColor().CGColor
