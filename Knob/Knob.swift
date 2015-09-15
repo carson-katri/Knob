@@ -8,10 +8,11 @@
 
 import UIKit
 
-extension CGPoint {
-    func vectorFromPoint(point: CGPoint) -> CGVector {
-        return CGVector(dx: x - point.x, dy: y - point.y)
-    }
+/**
+ * Return vector from lhs point to rhs point.
+ */
+func - (lhs: CGPoint, rhs: CGPoint) -> CGVector {
+    return CGVector(dx: rhs.x - lhs.x, dy: rhs.y - lhs.y)
 }
 
 extension CGVector {
@@ -180,13 +181,13 @@ public class Knob: UIControl {
     }
     
     override public func beginTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
-        lastVector = touch.locationInView(self.superview).vectorFromPoint(center)
+        lastVector = touch.locationInView(self.superview) - center
         return true
     }
     
     override public func continueTrackingWithTouch(touch: UITouch, withEvent event: UIEvent?) -> Bool {
         // Calculate vector from center to touch.
-        let vector = touch.locationInView(self.superview).vectorFromPoint(center)
+        let vector = touch.locationInView(self.superview) - center
         
         // Add angular difference to our current value.
         angle = (angle + vector.angleFromVector(lastVector)) % (2 * M_PI)
