@@ -3,6 +3,8 @@ This is a simple iOS knob control implemented in Swift as a UIControl subclass. 
 
 ![Knob Illustration](Knob/knob.png)
 
+Read about its development at [Knob: Subclassing UIControl with Swift](http://iosdevstuff.blogspot.com/2015/09/knob-subclassing-uicontrol-with-swift.html).
+
 ## Usage
 
 Copy Knob.swift into your project. It implements UIControl's Target-Action interface. When rotated it generates UIControlEvents.ValueChanged. Get the current rotation from the value property, expressed as radians in the clockwise direction (0 to 2 * M_PI). Example:
