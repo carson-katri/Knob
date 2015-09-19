@@ -12,16 +12,16 @@ import UIKit
  * Return vector from lhs point to rhs point.
  */
 func - (lhs: CGPoint, rhs: CGPoint) -> CGVector {
-    return CGVector(dx: rhs.x - lhs.x, dy: rhs.y - lhs.y)
+    return CGVector(dx: lhs.x - rhs.x, dy: lhs.y - rhs.y)
 }
 
 extension CGVector {
     /**
      * Returns angle between vector and receiver in radians. Return is between
-     * 0 and 2 * PI in counterclockwise direction.
+     * 0 and 2 * PI in clockwise direction.
      */
     func angleFromVector(vector: CGVector) -> Double {
-        let angle = Double(atan2(-dy, dx) - atan2(-vector.dy, vector.dx))
+        let angle = Double(atan2(dy, dx) - atan2(vector.dy, vector.dx))
         return angle > 0 ? angle : angle + 2 * M_PI
     }
 }
@@ -67,17 +67,17 @@ public class Knob: UIControl {
     private let indicatorLayer = CAShapeLayer()
     private let lineWidth = CGFloat(1)
     private var lastVector = CGVector.zero
-    private var angle = M_PI / 2.0
+    private var angle = 0.0
     
     /**
      * Contains the current value.
      */
-    public var value: Float {
+    public var value: Double {
         get {
-            return (Float(5 * M_PI / 2) - Float(angle)) % Float(2 * M_PI)
+            return angle
         }
         set {
-            angle = (5 * M_PI / 2 - Double(newValue)) % (2 * M_PI)
+            angle = newValue % (M_PI * 2)
             updateLayer()
         }
     }
@@ -165,16 +165,17 @@ public class Knob: UIControl {
     private func updateIndicator() {
         let linePath = UIBezierPath()
         
+        // Adjust the angle to be in the counterclockwise direction from the positive
+        // x-axis to accomodate the standard parametric equations for a circle used below.
+        let t = 5 / 2 * M_PI - angle
         let center = indicatorLayer.bounds.center
-        let cosA = CGFloat(cos(angle))
-        let sinA = CGFloat(sin(angle))
         
-        let x1 = center.x + (indicatorLayer.bounds.width / 2) * cosA
-        let y1 = center.y - (indicatorLayer.bounds.height / 2) * sinA
+        let x1 = center.x + (indicatorLayer.bounds.width / 2) * CGFloat(cos(t))
+        let y1 = center.y - (indicatorLayer.bounds.height / 2) * CGFloat(sin(t))
         linePath.moveToPoint(CGPoint(x:x1, y:y1))
 
-        let x2 = center.x + (indicatorLayer.bounds.width / 3) * cosA
-        let y2 = center.y - (indicatorLayer.bounds.height / 3) * sinA
+        let x2 = center.x + (indicatorLayer.bounds.width / 3) * CGFloat(cos(t))
+        let y2 = center.y - (indicatorLayer.bounds.height / 3) * CGFloat(sin(t))
         linePath.addLineToPoint(CGPoint(x:x2, y:y2))
         
         indicatorLayer.path = linePath.CGPath
@@ -191,6 +192,7 @@ public class Knob: UIControl {
         
         // Add angular difference to our current value.
         angle = (angle + vector.angleFromVector(lastVector)) % (2 * M_PI)
+        
         lastVector = vector
         updateIndicator()
         
