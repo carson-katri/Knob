@@ -22,7 +22,20 @@ func knobRotated(knob: Knob) {
     print("value: \(knob.value)")
 }
 ```
+### tintColor
+Use tintColor to change the color of the outline and indicator mark.
 
+![Knob with red tintColor](Knob/red_knob.png)
+```
+knob.tintColor = UIColor.redColor()
+```
+### backgroundColor
+Use backgroundColor to change the fill color.
+
+![Knob with gray backgroundColor](Knob/gray_knob.png)
+```
+knob.backgroundColor = UIColor(white: 0.9, alpha: 1.0)
+```
 ## License
 
 Knob is available under the MIT license. See the LICENSE file for more info.
