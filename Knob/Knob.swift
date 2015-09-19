@@ -98,6 +98,14 @@ public class Knob: UIControl {
         }
     }
     
+    override public var tintColor: UIColor! {
+        didSet {
+            CATransaction.doWithNoAnimation {
+                self.updateLayer()
+            }
+        }
+    }
+    
     private var knobBackgroundColor: UIColor?
     override public var backgroundColor: UIColor? {
         get {
