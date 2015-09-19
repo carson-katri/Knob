@@ -26,6 +26,7 @@ func knobRotated(knob: Knob) {
 Use tintColor to change the color of the outline and indicator mark.
 
 ![Knob with red tintColor](Knob/red_knob.png)
+
 ```
 knob.tintColor = UIColor.redColor()
 ```
@@ -35,6 +36,14 @@ Use backgroundColor to change the fill color.
 ![Knob with gray backgroundColor](Knob/gray_knob.png)
 ```
 knob.backgroundColor = UIColor(white: 0.9, alpha: 1.0)
+```
+### enabled
+Set enabled to false to disable touch events. The stroke and fill color will be modified subtly to indicate the control is disabled.
+
+![Disabled knob](Knob/disabled_knob.png)
+```
+leftKnob.enabled = true
+rightKnob.enabled = false
 ```
 ## License
 
